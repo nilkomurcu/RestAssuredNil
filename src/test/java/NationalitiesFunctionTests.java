@@ -87,18 +87,69 @@ public class NationalitiesFunctionTests {
     }
 
     @Test(priority = 4)
-    public void getNationalityTest() { }
+    public void getNationalityTest() {
+        given()
+                .spec(reqSpec)
+                .cookies(cookies)
+                .when()
+                .get("/school-service/api/nationality/" + nation_id)
+                .then()
+                .statusCode(200);
+    }
+
 
     @Test(priority = 5)
-    public void updateNationalityTest() { }
+    public void updateNationalityTest() {
+        HashMap<String, String> updatedNat = new HashMap<>();
+        updatedNat.put("name","Updated PostmanNil Test Nationality");
+
+        given()
+                .spec(reqSpec)
+                .cookies(cookies)
+                .body(updatedNat)
+                .when()
+                .put("/school-service/api/nationality/")
+                .then()
+                .log().body()
+                .statusCode(200)
+                .body("name",equalTo(updatedNat.get("name")));
+
+    }
 
     @Test(priority = 6)
-    public void deleteNationalityTest() { }
+    public void deleteNationalityTest() {
+        given()
+                .spec(reqSpec)
+                .cookies(cookies)
+                .when()
+                .delete("/school-service/api/nationality/" + nation_id)
+                .then()
+                .log().body()
+                .statusCode(400);
+    }
 
     @Test(priority = 7)
-    public void getNationalityNegativeTest() { }
+    public void getNationalityNegativeTest() {
+
+        given()
+                .spec(reqSpec)
+                .cookies(cookies)
+                .when()
+                .get("/school-service/api/nationality/" + nation_id)
+                .then()
+                .statusCode(404);
+    }
 
     @Test(priority = 8)
-    public void deleteNationalityNegativeTest() { }
+    public void deleteNationalityNegativeTest() {
+        given()
+                .spec(reqSpec)
+                .cookies(cookies)
+                .when()
+                .delete("/school-service/api/nationality/" + nation_id)
+                .then()
+                .log().body()
+                .statusCode(404);
+    }
 
 }
